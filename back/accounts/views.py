@@ -4,7 +4,7 @@ from django.contrib.auth import password_validation
 from django.core.exceptions import PermissionDenied, ValidationError
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import action
+from rest_framework.decorators import actioncd
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView

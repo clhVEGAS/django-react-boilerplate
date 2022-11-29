@@ -20,3 +20,4 @@ class HealthCheckView(View):
             if one != 1:  # pragma: no cover
                 raise Exception("Not healthy")
         return HttpResponse("ok")
+
