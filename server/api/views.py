@@ -56,7 +56,7 @@ def updateItem(request, pk):
     return Response(serializer.data)
 
 @api_view(['POST'])
-def deleteItem(pk):
+def deleteItem(self, pk):
     item = Item.objects.get(id=pk)
     
     try:
