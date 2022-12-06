@@ -18,11 +18,12 @@ function TextBox(props){
     const submit = (event) => {
         event.preventDefault();
         if (props.checked === true){
-            console.log('checked was true')
             updItem(text, props.id)
             getItems().then(data => {
                 setItems(data);
-                setUpdateme(!updateme)
+                setUpdateme(!updateme);
+                props.setChecked(false);
+                setText('');
             });
             
         } else {
