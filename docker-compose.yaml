@@ -1,0 +1,18 @@
+services:
+  api:
+    build: ./server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "web"
+    volumes:
+      - ./server:/server
+    volumes_from:
+      - web:rw
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+  web:
+    build: ./base_ui
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./base_ui:/base_ui
