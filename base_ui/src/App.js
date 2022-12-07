@@ -1,9 +1,12 @@
+import { useState,useEffect } from 'react';
+
+import { ItemContext } from './components/ItemContext';
 import logo from './logo.svg';
 import './App.css';
+
 import ItemTable from './components/ItemTable';
 import TextBox from './components/TextBox';
-import { ItemContext } from './components/ItemContext';
-import { useState,useEffect } from 'react';
+
 import getItems from './functions/getItems';
 
 function App() {
