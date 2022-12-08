@@ -23,8 +23,8 @@ function ItemTable(props) {
                 delItem(parseInt(id));
                 getItems().then(data => {
                     setItems(data);
+                    setUpdateme(!updateme);
                 });
-                setUpdateme(!updateme);
             }
     
     return (
@@ -43,7 +43,7 @@ function ItemTable(props) {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>{item.created}</td>
-                    <td><button onClick={(event) => {event.preventDefault();handleClick(item.id)}}>Delete</button></td>
+                    <td><button onClick={(event) => {event.preventDefault();handleClick(item.id);}}>Delete</button></td>
                     <td><input type='radio' value={item.name} name='radio' onClick={() => {setText(item.name); props.setChecked(true); props.setID(item.id);}}/></td>
                 </tr>
             ))}
