@@ -1,10 +1,12 @@
 FROM node:16.15.1
 
-WORKDIR /base_ui
-
 COPY . .
 
+WORKDIR /base_ui
+
 RUN npm install
+
+ENV NODE_ENV production
 
 EXPOSE 3000
 
