@@ -1,7 +1,8 @@
 import { useState,useEffect } from 'react';
 
-import { ItemContext } from './components/ItemContext';
+import { ItemContext } from './context/ItemContext';
 import logo from './logo.svg';
+import django from './django.png'
 import './App.css';
 
 import ItemTable from './components/ItemTable';
@@ -28,7 +29,8 @@ function App() {
           <Container className='base-bg'><ItemContext.Provider value={{item:[items, setItems], texts:[text, setText]}}>
           <div className='jumbotron'>
             <Row>
-              <Col xs={9}>
+              <Col><img src={django} className="App-logo float-start" alt="logo" /></Col>
+              <Col xs={8}>
                 <h1 className='float-start jumbobigtext'>React/Django Boilerplate</h1><br/><br/>
                 <p className='jumbosmalltext float-end'>Example CRUD Application w/ User Authentication and Admin Section</p>
               </Col>

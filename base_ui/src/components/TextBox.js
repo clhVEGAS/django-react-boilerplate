@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import addItem from "../functions/addItem";
 import getItems from "../functions/getItems";
 import updItem from "../functions/updateItem";
-import { ItemContext } from "./ItemContext";
+import { ItemContext } from "../context/ItemContext";
 
 function TextBox(props){
     const {item, texts} = useContext(ItemContext)

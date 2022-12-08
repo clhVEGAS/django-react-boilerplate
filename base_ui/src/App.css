@@ -10,7 +10,11 @@
 
 .base-bg {
   border-radius: 10px;
-  background-color: #bcf7e5;
+  background-color: #bce9f7;
+}
+
+body {
+  background-color: rgb(222, 246, 255) !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -19,8 +23,17 @@
   }
 }
 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .App-header {
-  background-color: #f3f7ff;
+  background-color: rgb(222, 246, 255);
   /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
@@ -32,15 +45,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .container-fluid .jumbotron, .container .jumbotron {

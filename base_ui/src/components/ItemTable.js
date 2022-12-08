@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ItemContext } from './ItemContext';
+import { ItemContext } from '../context/ItemContext';
 import getItems from '../functions/getItems';
 import delItem from '../functions/deleteItem';
 import { Table } from 'reactstrap';
