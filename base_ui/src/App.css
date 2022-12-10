@@ -78,14 +78,26 @@ body {
   padding-top: 30px;
 }
 
-
-
 .jumbosmalltext {
   font-family: 'Tangerine', serif;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .jumbobigtext {
   font-family: 'Zen Dots', cursive;
   font-size: 48px;
+}
+
+.text-responsive {
+  font-size: calc(10% + 1vw + 1vh);
+}
+
+.text-responsive-header {
+  font-size: calc(45% + 1vw + 1vh);
+}
+
+.background-image {
+  background-image: url("https://source.unsplash.com/600x200/?squirrel");
+  background-repeat: no-repeat;
+  background-size: cover;
 }

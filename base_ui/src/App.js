@@ -1,15 +1,15 @@
 import { useState,useEffect } from 'react';
-
 import { ItemContext } from './context/ItemContext';
-import logo from './logo.svg';
-import django from './django.png'
-import './App.css';
 
+import './App.css';
+import { Container } from 'reactstrap';
+
+import CatPicture from './components/cat';
 import ItemTable from './components/ItemTable';
-import TextBox from './components/TextBox';
+import { Jumbo } from './components/JumboTron'
 
 import getItems from './functions/getItems';
-import { Container, Row, Col } from 'reactstrap';
+
 
 function App() {
   const [items, setItems] = useState({});
@@ -27,20 +27,11 @@ function App() {
     <div className="App">
       <header className="App-header">
           <Container className='base-bg'><ItemContext.Provider value={{item:[items, setItems], texts:[text, setText]}}>
-          <div className='jumbotron'>
-            <Row>
-              <Col><img src={django} className="App-logo float-start" alt="logo" /></Col>
-              <Col xs={8}>
-                <h1 className='float-start jumbobigtext'>React/Django Boilerplate</h1><br/><br/>
-                <p className='jumbosmalltext float-end'>Example CRUD Application w/ User Authentication and Admin Section</p>
-              </Col>
-              <Col><img src={logo} className="App-logo float-end" alt="logo" /></Col>
-            </Row>
-            <Row className='align-items-end'>
-              <Col><TextBox checked={checked} setChecked={setChecked} id={id} /></Col>
-            </Row>
-          </div><ItemTable checked={checked} setChecked={setChecked} setID={setID} />
-          </ItemContext.Provider></Container>
+            <Jumbo checked={checked} setChecked={setChecked}/>
+            {/* <CatPicture style={{objectFit:'scale-down'}}/> */}
+            <ItemTable checked={checked} setChecked={setChecked} setID={setID} id={id}/>
+            </ItemContext.Provider>
+          </Container>
       </header>
     </div>
   );

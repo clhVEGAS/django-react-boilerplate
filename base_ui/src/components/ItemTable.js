@@ -34,7 +34,7 @@ function ItemTable(props) {
             <tr>
                 <th>id</th>
                 <th>name</th>
-                <th>created</th>
+                <th className='d-none d-sm-block'>created</th>
                 <th>delete</th>
                 <th>edit</th>
             </tr>
@@ -42,7 +42,7 @@ function ItemTable(props) {
                 <tr key={uuid()}>
                     <td>{item.id}</td>
                     <td>{item.name}</td>
-                    <td>{item.created}</td>
+                    <td className='text-responsive d-none d-sm-block'>{item.created}</td>
                     <td><button onClick={(event) => {event.preventDefault();handleClick(item.id);}}>Delete</button></td>
                     <td><input type='radio' value={item.name} name='radio' onClick={() => {setText(item.name); props.setChecked(true); props.setID(item.id);}}/></td>
                 </tr>
