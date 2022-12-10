@@ -1,12 +1,15 @@
 import { useState,useEffect } from 'react';
+import { Container } from 'reactstrap';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+
 import { ItemContext } from './context/ItemContext';
 
-import './App.css';
-import { Container } from 'reactstrap';
 
 import CatPicture from './components/cat';
 import ItemTable from './components/ItemTable';
 import { Jumbo } from './components/JumboTron'
+import { Sales } from './components/SalesComponent'
 
 import getItems from './functions/getItems';
 
@@ -26,10 +29,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-          <Container className='base-bg'><ItemContext.Provider value={{item:[items, setItems], texts:[text, setText]}}>
-            <Jumbo checked={checked} setChecked={setChecked}/>
-            {/* <CatPicture style={{objectFit:'scale-down'}}/> */}
-            <ItemTable checked={checked} setChecked={setChecked} setID={setID} id={id}/>
+          <Container className='base-bg'>
+            <ItemContext.Provider value={{item:[items, setItems], texts:[text, setText]}}>
+              <Jumbo checked={checked} setChecked={setChecked}/>
+              <Routes>
+                <Route path="/" element={<ItemTable checked={checked} setChecked={setChecked} setID={setID} id={id}/>} />
+                <Route path="/sales" element={<Sales />} />
+                <Route path="/cats" element={<CatPicture style={{objectFit:'scale-down'}}/>} />
+              </Routes>
             </ItemContext.Provider>
           </Container>
       </header>

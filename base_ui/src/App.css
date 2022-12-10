@@ -13,10 +13,6 @@
   background-color: #bce9f7;
 }
 
-body {
-  background-color: rgb(222, 246, 255) !important;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -81,11 +77,13 @@ body {
 .jumbosmalltext {
   font-family: 'Tangerine', serif;
   font-size: 20px;
+  text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
 }
 
 .jumbobigtext {
   font-family: 'Zen Dots', cursive;
   font-size: 48px;
+  text-shadow: 5px 5px #558ABB;
 }
 
 .text-responsive {
@@ -96,8 +94,13 @@ body {
   font-size: calc(45% + 1vw + 1vh);
 }
 
+.topContainer{
+  display: flex;
+  flex-direction: row;
+}
+
 .background-image {
-  background-image: url("https://source.unsplash.com/600x200/?squirrel");
+  background-image: url("https://source.unsplash.com/600x250/?python");
   background-repeat: no-repeat;
   background-size: cover;
 }
