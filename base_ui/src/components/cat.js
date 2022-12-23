@@ -48,7 +48,6 @@ const Bastet = () => {
     return (
       <div>
         <div>{data.errors[0]}</div>
-        <div>PS: Make sure to set your access token!</div>
       </div>
     );
   } else {
