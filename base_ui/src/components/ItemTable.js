@@ -44,7 +44,7 @@ function ItemTable(props) {
                     <td>{item.name}</td>
                     <td className='text-responsive d-none d-sm-block'>{item.created}</td>
                     <td><button onClick={(event) => {event.preventDefault();handleClick(item.id);}}>Delete</button></td>
-                    <td><input type='radio' value={item.name} name='radio' onClick={() => {setText(item.name); props.setChecked(true); props.setID(item.id);}}/></td>
+                    <td><input type='radio' name='radio' onClick={(event) => {event.preventDefault(); setText(item.name); props.setChecked(true); props.setID(item.id);}}/></td>
                 </tr>
             ))}
             </tbody>
