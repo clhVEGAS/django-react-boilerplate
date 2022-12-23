@@ -7,7 +7,7 @@ import { createApi } from "unsplash-js";
 const api = createApi({
     // Don't forget to set your access token here!
     // See https://unsplash.com/developers
-    accessKey: "C2d3gTvdAb_eIuGuRIn7Z1jzAOMzIcC75bNwumxsZl4"
+    accessKey: ""
   });
 
 const CatPicture = ({ photo }) => {
