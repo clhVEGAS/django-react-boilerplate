@@ -1,6 +1,9 @@
 import React from "react";
 import Cookies from "universal-cookie";
-import {Counter} from "./features/counter/Counter"
+import {Counter} from "./features/counter/Counter";
+import { Container, Row, Col } from "reactstrap";
+import Site_Navbar from "./components/navBar";
+import Login from "./features/login/Login";
 
 const cookies = new Cookies();
 
@@ -27,7 +30,7 @@ class App extends React.Component {
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.isAuthenticated) {
         this.setState({isAuthenticated: true});
       } else {
@@ -110,39 +113,24 @@ class App extends React.Component {
   render() {
     if (!this.state.isAuthenticated) {
       return (
-        <div className="container mt-3">
-          <h1>React Cookie Auth</h1>
+        <Container>
+        <Row>
+          <Site_Navbar whoami={this.whoami} logout={this.logout} isAuthenticated={this.isAuthenticated}/>
+        </Row>
           <br />
-          <h2>Login</h2>
-          <form onSubmit={this.login}>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input type="text" className="form-control" id="username" name="username" value={this.state.username} onChange={this.handleUserNameChange} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="username">Password</label>
-              <input type="password" className="form-control" id="password" name="password" value={this.state.password} onChange={this.handlePasswordChange} />
-              <div>
-                {this.state.error &&
-                  <small className="text-danger">
-                    {this.state.error}
-                  </small>
-                }
-              </div>
-            </div>
-            <button type="submit" className="btn btn-primary">Login</button>
-          </form>
-        </div>
+        <Login login={this.login} username={this.username} handleUserNameChange={this.handleUserNameChange} password={this.password} handlePasswordChange={this.handlePasswordChange} error={this.error}/>
+        </Container>
       );
     }
     return (
-      <div className="container mt-3">
-        <h1>React Cookie Auth</h1>
-        <p>You are logged in!</p>
-        <Counter />
-        <button className="btn btn-primary mr-2" onClick={this.whoami}>WhoAmI</button>
-        <button className="btn btn-danger" onClick={this.logout}>Log out</button>
-      </div>
+      <Container>
+        <Row>
+          <Site_Navbar  whoami={this.whoami} logout={this.logout} isAuthenticated={this.isAuthenticated}/>
+        </Row>
+        <Row>
+          <Counter />
+        </Row>
+      </Container>
     )
   }
 }
