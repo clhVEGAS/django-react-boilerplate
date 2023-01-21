@@ -1,30 +1,21 @@
-import React from "react";
+import {React, useState, useEffect, setState} from "react";
 import Cookies from "universal-cookie";
 import {Counter} from "./features/counter/Counter";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import Site_Navbar from "./components/navBar";
 import Login from "./features/login/Login";
 
 const cookies = new Cookies();
 
-class App extends React.Component {
+function App(props) {
+  const [username, handleUserNameChange] = useState('');
+  const [password, handlePasswordChange] = useState('');
+  const [error, setErr] = useState('');
+  const [isAuthenticated, setAuth] = useState(false);
 
-  constructor(props) {
-    super(props);
+  useEffect(() => {getSession()});
 
-    this.state = {
-      username: "",
-      password: "",
-      error: "",
-      isAuthenticated: false,
-    };
-  }
-
-  componentDidMount = () => {
-    this.getSession();
-  }
-
-  getSession = () => {
+  const getSession = () => {
     fetch("/api/session/", {
       credentials: "same-origin",
     })
@@ -32,9 +23,9 @@ class App extends React.Component {
     .then((data) => {
       // console.log(data);
       if (data.isAuthenticated) {
-        this.setState({isAuthenticated: true});
+        setAuth(true);
       } else {
-        this.setState({isAuthenticated: false});
+        setAuth(false);
       }
     })
     .catch((err) => {
@@ -42,7 +33,7 @@ class App extends React.Component {
     });
   }
 
-  whoami = () => {
+  const whoami = () => {
     fetch("/api/whoami/", {
       headers: {
         "Content-Type": "application/json",
@@ -58,15 +49,15 @@ class App extends React.Component {
     });
   }
 
-  handlePasswordChange = (event) => {
-    this.setState({password: event.target.value});
-  }
+  // const handlePasswordChange = (event) => {
+  //   setState({password: event.target.value});
+  // }
 
-  handleUserNameChange = (event) => {
-    this.setState({username: event.target.value});
-  }
+  // const handleUserNameChange = (event) => {
+  //   setState({username: event.target.value});
+  // }
 
-  isResponseOk(response) {
+  const isResponseOk = (response) => {
     if (response.status >= 200 && response.status <= 299) {
       return response.json();
     } else {
@@ -74,7 +65,7 @@ class App extends React.Component {
     }
   }
 
-  login = (event) => {
+  const login = (event) => {
     event.preventDefault();
     fetch("/api/login/", {
       method: "POST",
@@ -83,49 +74,49 @@ class App extends React.Component {
         "X-CSRFToken": cookies.get("csrftoken"),
       },
       credentials: "same-origin",
-      body: JSON.stringify({username: this.state.username, password: this.state.password}),
+      body: JSON.stringify({username: username, password: password}),
     })
-    .then(this.isResponseOk)
+    .then(isResponseOk)
     .then((data) => {
       console.log(data);
-      this.setState({isAuthenticated: true, username: "", password: "", error: ""});
+      setState({isAuthenticated: true, username: "", password: "", error: ""});
     })
     .catch((err) => {
       console.log(err);
-      this.setState({error: "Wrong username or password."});
+      setErr("Wrong username or password.");
     });
   }
 
-  logout = () => {
+  const logout = () => {
     fetch("/api/logout", {
       credentials: "same-origin",
     })
-    .then(this.isResponseOk)
+    .then(isResponseOk)
     .then((data) => {
       console.log(data);
-      this.setState({isAuthenticated: false});
+      setAuth(false);
     })
     .catch((err) => {
       console.log(err);
     });
   };
 
-  render() {
-    if (!this.state.isAuthenticated) {
+  const renderLogin = () => {
+    if (!isAuthenticated) {
       return (
         <Container>
         <Row>
-          <Site_Navbar whoami={this.whoami} logout={this.logout} isAuthenticated={this.isAuthenticated}/>
+          <Site_Navbar whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
         </Row>
           <br />
-        <Login login={this.login} username={this.username} handleUserNameChange={this.handleUserNameChange} password={this.password} handlePasswordChange={this.handlePasswordChange} error={this.error}/>
+        <Login login={login} username={username} handleUserNameChange={handleUserNameChange} password={password} handlePasswordChange={handlePasswordChange} error={error}/>
         </Container>
       );
     }
     return (
       <Container>
         <Row>
-          <Site_Navbar  whoami={this.whoami} logout={this.logout} isAuthenticated={this.isAuthenticated}/>
+          <Site_Navbar  whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
         </Row>
         <Row>
           <Counter />
@@ -133,6 +124,9 @@ class App extends React.Component {
       </Container>
     )
   }
+  return(
+    renderLogin()
+  )
 }
 
 export default App;
