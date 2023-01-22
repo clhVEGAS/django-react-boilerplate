@@ -1,4 +1,4 @@
-import {React, useState, useEffect, setState} from "react";
+import {React, useState, useEffect} from "react";
 import Cookies from "universal-cookie";
 import {Counter} from "./features/counter/Counter";
 import { Container, Row } from "reactstrap";
@@ -49,14 +49,6 @@ function App(props) {
     });
   }
 
-  // const handlePasswordChange = (event) => {
-  //   setState({password: event.target.value});
-  // }
-
-  // const handleUserNameChange = (event) => {
-  //   setState({username: event.target.value});
-  // }
-
   const isResponseOk = (response) => {
     if (response.status >= 200 && response.status <= 299) {
       return response.json();
@@ -79,7 +71,10 @@ function App(props) {
     .then(isResponseOk)
     .then((data) => {
       console.log(data);
-      setState({isAuthenticated: true, username: "", password: "", error: ""});
+      handleUserNameChange("");
+      handlePasswordChange("");
+      setErr("");
+      setAuth(true);
     })
     .catch((err) => {
       console.log(err);
