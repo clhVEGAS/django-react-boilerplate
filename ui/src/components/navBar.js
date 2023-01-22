@@ -13,7 +13,7 @@ import {
   DropdownItem } from 'reactstrap';
 import logo from "../logo.png";
 
-export default class Site_Navbar extends React.Component {
+export default class SiteNavbar extends React.Component {
   constructor(props) {
     super(props);
 

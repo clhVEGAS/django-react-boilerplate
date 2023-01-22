@@ -1,13 +1,16 @@
 import {React, useState, useEffect} from "react";
-import Cookies from "universal-cookie";
 import {Counter} from "./features/counter/Counter";
 import { Container, Row } from "reactstrap";
-import Site_Navbar from "./components/navBar";
+import SiteNavbar from "./components/navBar";
 import Login from "./features/login/Login";
-
-const cookies = new Cookies();
+// import { Spinner } from "reactstrap";
+import { useCheckUserMutation, useLogOutMutation, useWhoAmIMutation } from './features/login/loginApi';
 
 function App(props) {
+  const [checkUser] = useCheckUserMutation()
+  const [logout_trigger] = useLogOutMutation()
+  const [whoami_trigger] = useWhoAmIMutation()
+
   const [username, handleUserNameChange] = useState('');
   const [password, handlePasswordChange] = useState('');
   const [error, setErr] = useState('');
@@ -16,7 +19,7 @@ function App(props) {
   useEffect(() => {getSession()});
 
   const getSession = () => {
-    fetch("/api/session/", {
+    fetch("/api/uhandle/session/", {
       credentials: "same-origin",
     })
     .then((res) => res.json())
@@ -33,75 +36,54 @@ function App(props) {
     });
   }
 
-  const whoami = () => {
-    fetch("/api/whoami/", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "same-origin",
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("You are logged in as: " + data.username);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-
-  const isResponseOk = (response) => {
-    if (response.status >= 200 && response.status <= 299) {
-      return response.json();
-    } else {
-      throw Error(response.statusText);
+  const whoami = async () => {
+    try{
+      let print = await whoami_trigger();
+      alert(print.data.username);
+    } catch(err){
+      console.error('Uhhh.. Who are you?: ', err)
+      setAuth(false);
+      setErr(err);
     }
   }
-
-  const login = (event) => {
+  
+  const login = async (event) => {
     event.preventDefault();
-    fetch("/api/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": cookies.get("csrftoken"),
-      },
-      credentials: "same-origin",
-      body: JSON.stringify({username: username, password: password}),
-    })
-    .then(isResponseOk)
-    .then((data) => {
-      console.log(data);
-      handleUserNameChange("");
-      handlePasswordChange("");
-      setErr("");
-      setAuth(true);
-    })
-    .catch((err) => {
-      console.log(err);
-      setErr("Wrong username or password.");
-    });
-  }
+      console.log(username)
+      console.log(password)
+      try{
+        await checkUser({username, password}).unwrap();
+        handleUserNameChange('');
+        handlePasswordChange('');
+        setAuth(true);
+        setErr("");
+      } catch(err){
+        console.error('Failed to log in: ', err)
+        setAuth(false);
+        setErr(err);
+      }
+    }
 
-  const logout = () => {
-    fetch("/api/logout", {
-      credentials: "same-origin",
-    })
-    .then(isResponseOk)
-    .then((data) => {
-      console.log(data);
+  const logout = async () => {
+    try{
+      await logout_trigger();
+      handleUserNameChange('');
+      handlePasswordChange('');
       setAuth(false);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  };
+      setErr("");
+    } catch(err){
+      console.error('Failed to log out: ', err)
+      setAuth(false);
+      setErr(err);
+    }
+  }
 
   const renderLogin = () => {
     if (!isAuthenticated) {
       return (
         <Container>
         <Row>
-          <Site_Navbar whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
+          <SiteNavbar whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
         </Row>
           <br />
         <Login login={login} username={username} handleUserNameChange={handleUserNameChange} password={password} handlePasswordChange={handlePasswordChange} error={error}/>
@@ -111,7 +93,7 @@ function App(props) {
     return (
       <Container>
         <Row>
-          <Site_Navbar  whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
+          <SiteNavbar  whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
         </Row>
         <Row>
           <Counter />
