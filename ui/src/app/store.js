@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import counterReducer from '../features/counter/counterSlice';
 import { userApi } from '../features/login/loginApi';
-import userReducer from '../features/login/userStore';
+import userReducer from '../features/login/userSlice';
 
 export const store = configureStore({
   reducer: {

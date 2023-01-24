@@ -1,21 +1,18 @@
-import {React, useState, useEffect} from "react";
+import {React, useEffect} from "react";
 import {Counter} from "./features/counter/Counter";
 import { Container, Row } from "reactstrap";
 import SiteNavbar from "./components/navBar";
 import Login from "./features/login/Login";
-// import { Spinner } from "reactstrap";
-import { useCheckUserMutation, useLogOutMutation, useWhoAmIMutation } from './features/login/loginApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { storeAuth, storeErr } from "./features/login/userSlice";
+import { useLogOutMutation, useWhoAmIMutation } from './features/login/loginApi';
+
 
 function App(props) {
-  const [checkUser] = useCheckUserMutation()
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  const dispatch = useDispatch();
   const [logout_trigger] = useLogOutMutation()
   const [whoami_trigger] = useWhoAmIMutation()
-
-  const [username, handleUserNameChange] = useState('');
-  const [password, handlePasswordChange] = useState('');
-  const [error, setErr] = useState('');
-  const [isAuthenticated, setAuth] = useState(false);
-
   useEffect(() => {getSession()});
 
   const getSession = () => {
@@ -26,9 +23,9 @@ function App(props) {
     .then((data) => {
       // console.log(data);
       if (data.isAuthenticated) {
-        setAuth(true);
+        dispatch(storeAuth(true));
       } else {
-        setAuth(false);
+        dispatch(storeAuth(false));
       }
     })
     .catch((err) => {
@@ -41,40 +38,21 @@ function App(props) {
       let print = await whoami_trigger();
       alert(print.data.username);
     } catch(err){
-      console.error('Uhhh.. Who are you?: ', err)
-      setAuth(false);
-      setErr(err);
+      console.error('Uhhh.. Who are you?: ', err);
+      dispatch(storeAuth(false));
+      dispatch(storeErr(err));
     }
   }
   
-  const login = async (event) => {
-    event.preventDefault();
-      console.log(username)
-      console.log(password)
-      try{
-        await checkUser({username, password}).unwrap();
-        handleUserNameChange('');
-        handlePasswordChange('');
-        setAuth(true);
-        setErr("");
-      } catch(err){
-        console.error('Failed to log in: ', err)
-        setAuth(false);
-        setErr(err);
-      }
-    }
-
   const logout = async () => {
     try{
       await logout_trigger();
-      handleUserNameChange('');
-      handlePasswordChange('');
-      setAuth(false);
-      setErr("");
+      dispatch(storeAuth(false));
+      dispatch(storeErr(''));
     } catch(err){
       console.error('Failed to log out: ', err)
-      setAuth(false);
-      setErr(err);
+      dispatch(storeAuth(false));
+      dispatch(storeErr(err));
     }
   }
 
@@ -86,7 +64,7 @@ function App(props) {
           <SiteNavbar whoami={whoami} logout={logout} isAuthenticated={isAuthenticated}/>
         </Row>
           <br />
-        <Login login={login} username={username} handleUserNameChange={handleUserNameChange} password={password} handlePasswordChange={handlePasswordChange} error={error}/>
+        <Login />
         </Container>
       );
     }
@@ -101,6 +79,8 @@ function App(props) {
       </Container>
     )
   }
+
+  // Main Return
   return(
     renderLogin()
   )

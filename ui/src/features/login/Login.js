@@ -1,7 +1,36 @@
-import { React } from "react";
+import { React, useState } from "react";
+import { storeAuth, storeErr } from "./userSlice";
+import { useCheckUserMutation } from './loginApi';
+import { useDispatch, useSelector } from "react-redux";
+// import { Spinner } from "reactstrap";
 
+const Login = (props) => {
+    const [checkUser] = useCheckUserMutation()
 
-const Login = ({username, handleUserNameChange, password, handlePasswordChange, login, error}) => {
+    const [username, handleUserNameChange] = useState('');
+    const [password, handlePasswordChange] = useState('');
+    // const [error, setErr] = useState('');
+
+    const error = useSelector((state) => state.user.err);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const dispatch = useDispatch();
+
+    const login = async (event) => {
+        event.preventDefault();
+        try{
+        await checkUser({username, password}).unwrap();
+        handleUserNameChange('');
+        handlePasswordChange('');
+        dispatch(storeAuth(true));
+        console.log(isAuthenticated);
+        dispatch(storeErr(''));
+        } catch(err){
+        console.error('Failed to log in: ', err)
+        dispatch(storeAuth(false));
+        dispatch(storeErr(err));
+        }
+    }
+
     return(
         <>
             <h2>Login</h2>
@@ -22,6 +51,7 @@ const Login = ({username, handleUserNameChange, password, handlePasswordChange, 
                 </div>
             </div>
             <button type="submit" className="btn btn-primary">Login</button>
+            <button type="button" className="btn btn-primary me-2" onClick={() => console.log(isAuthenticated)}>Test</button>
             </form>
         </>
     )
