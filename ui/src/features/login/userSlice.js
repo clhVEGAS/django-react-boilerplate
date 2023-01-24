@@ -19,7 +19,7 @@ const userSlice = createSlice({
       state.password = action.payload
     },
     storeAuth(state, action) {
-        state.isAuthorized = action.payload
+        state.isAuthenticated = action.payload
       },
   },
 })

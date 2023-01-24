@@ -12,7 +12,6 @@ const Login = (props) => {
     // const [error, setErr] = useState('');
 
     const error = useSelector((state) => state.user.err);
-    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const dispatch = useDispatch();
 
     const login = async (event) => {
@@ -22,12 +21,11 @@ const Login = (props) => {
         handleUserNameChange('');
         handlePasswordChange('');
         dispatch(storeAuth(true));
-        console.log(isAuthenticated);
         dispatch(storeErr(''));
         } catch(err){
         console.error('Failed to log in: ', err)
         dispatch(storeAuth(false));
-        dispatch(storeErr(err));
+        dispatch(storeErr(err.data.detail));
         }
     }
 
@@ -50,8 +48,7 @@ const Login = (props) => {
                 }
                 </div>
             </div>
-            <button type="submit" className="btn btn-primary">Login</button>
-            <button type="button" className="btn btn-primary me-2" onClick={() => console.log(isAuthenticated)}>Test</button>
+            <button type="submit" className="btn btn-primary me-3 mt-2">Login</button>
             </form>
         </>
     )
