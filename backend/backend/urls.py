@@ -25,5 +25,5 @@ def index_view(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('', index_view, name='index'),  # new
+    path('', index_view, name='index'),
 ]
